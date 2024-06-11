@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Findings from backend</title>
+    <style>
+	body {
+		font-family: Arial, sans-serif;
+		margin: 0;
+		padding: 0;
+		background-color: #f4f4f4;
+		color: #333;
+	}
+
+	h1 {
+		text-align: center;
+		margin-top: 20px;
+	}
+
+	form {
+		width: 600px; /* Adjusted width */
+		max-height: calc(100vh - 40px); /* Adjusted max-height */
+		overflow-y: auto; /* Enable vertical scrollbar if needed */
+		margin: 20px auto; /* Center the form horizontally */
+		padding: 20px;
+		background-color: #fff;
+		border-radius: 8px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		display: flex; /* Use flexbox */
+		flex-wrap: wrap; /* Allow wrapping */
+		gap: 10px; /* Spacing between items */
+	}
+
+	.form-row {
+		flex: 0 1 calc(50% - 5px); /* Two items per row */
+		display: flex;
+		flex-direction: column;
+	}
+
+	label {
+		font-weight: bold;
+		font-size:13px;
+		/* Remove font-size and width adjustments */
+	}
+
+	input[type="text"],
+	select {
+		width: 100%;
+		padding: 8px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box; /* Ensure padding is included in width */
+	}
+
+	input[type="button"] {
+		width: 100%;
+		padding: 10px;
+		border: none;
+		background-color: #007bff;
+		color: #fff;
+		font-size: 16px;
+		font-weight: bold;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	input[type="button"]:hover {
+		background-color: #0056b3;
+	}
+
+
+    </style>
+</head>
+<body>
+    <h1>Findings from backend</h1>
+    
+    <form id="ticketForm">
+        <div class="form-row">
+            <label for="Store">Store:</label>
+            <input type="text" id="pos" name="Store">
+        </div>
+        <div class="form-row">
+            <label for="Terminal">Terminal:</label>
+            <input type="text" id="tm" name="Terminal">
+        </div>
+        <div class="form-row">
+            <label for="macId">MAC ID:</label>
+            <input type="text" id="macId" name="MAC">
+        </div>
+        <div class="form-row">
+            <label for="macStatus">Mac status/IP in info block:</label>
+            <input type="text" id="macStatus" name="Mac status/IP in info block">
+        </div>
+        <div class="form-row">
+            <label for="pingStatus">Able to ping:</label>
+            <select id="pingStatus" name="Able to ping">
+                 <option value="OPTION NOT SELECTED">Select an option</option>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+                <option value="UNREACHABLE">UNREACHABLE</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="Aurus configuration available">Aurus configuration available:</label>
+            <select id="aurusConfig" name="Aurus configuration available">
+                  <option value="OPTION NOT SELECTED">Select an option</option>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="Error in AESDK Logs">Error in AESDK Logs:</label>
+            <select id="Error in AESDK Logs" name="Error in AESDK Logs">
+                <option value="OPTION NOT SELECTED">Select an option</option>
+                <option value="MonitorPort Time Diff">MonitorPort Time Diff</option>
+                <option value="HeartBeat Time greater than">HeartBeat Time greater than</option>
+                <option value="PORT CAN NOT BE CLOSED">PORT CAN NOT BE CLOSED</option>
+                <option value="AEDSDK NOT INITIALIZED">AEDSDK NOT INITIALIZED</option>
+                <option value="STX07.ETX error">STX07.ETX error</option>
+                <option value="Other Error">Other Error</option>
+            </select>
+			 <div class="form-row" id="otherIssueTextbox" style="display: none;">
+            <input type="text" id="otherIssueDetails" name="otherIssueDetails" placeholder="Please specify">
+			</div>
+        </div>
+  
+        <div class="form-row">
+            <label for="wrapper">Wrapper:</label>
+            <select id="wrapper" name="AESDK Wrapper">
+			    <option value="OPTION NOT SELECTED">Select an option</option>
+                <option value="RUNNING">RUNNING</option>
+                <option value="STOPPED">STOPPED</option>
+                <option value="UNAVAILABLE">UNAVAILABLE</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="com32">COM32 listed:</label>
+            <select id="com32" name="COM(32) AVAILABLE">
+                <option value="OPTION NOT SELECTED">Select an option</option>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="usbDriver">USB Driver:</label>
+            <select id="USB Driver" name="USB Driver">
+                <option value="OPTION NOT SELECTED">Select an option</option>
+                <option value="AVAILABLE">AVAILABLE</option>
+                <option value="NO AVAILABLE">UNAVAILABLE</option>
+            </select>
+        </div>
+        <input type="button" value="Copy Data" onclick="copyData()">
+    </form>
+
+<!--   <div class="add-option">
+        <label for="selectLabel">Select Label:</label>
+        <select id="selectLabel">
+            <option value="errorLogs">Error in AESDK Logs</option>
+            <option value="pingStatus">Able to ping</option>
+            <option value="aurusConfig">Aurus configuration available</option>
+            
+        </select>
+        <input type="text" id="newOption" placeholder="New Option">
+        <input type="button" value="Add Option" onclick="addOption()">
+    </div>
+
+
+-->
+
+<script>
+    document.getElementById('Error in AESDK Logs').addEventListener('change', function() {
+        var otherIssueTextbox = document.getElementById('otherIssueTextbox');
+        otherIssueTextbox.style.display = this.value === 'Other Error' ? 'block' : 'none';
+    });
+
+    function copyData() {
+        var data = "Findings from backend\n\n";
+        var form = document.getElementById('ticketForm');
+        var formData = new FormData(form);
+        var errorLogsValue = formData.get('Error in AESDK Logs');
+
+        // Check if 'Other Error' is selected
+        if (errorLogsValue === 'Other Error') {
+            var otherIssueDetails = formData.get('otherIssueDetails');
+            data += "Error in AESDK Logs: " + otherIssueDetails + "\n";
+        } else {
+            // Append all form fields' values to the data string
+            formData.forEach(function(value, key) {
+                if (value.trim() !== "") {
+                    data += key + ": " + value + "\n";
+                }
+            });
+        }
+
+        // Create temporary textarea element and copy the data
+        var tempTextarea = document.createElement("textarea");
+        tempTextarea.value = data;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempTextarea);
+
+        // Alert the user
+        alert("Data copied successfully!");
+    }
+
+    function addOption() {
+        var targetLabel = document.getElementById('selectLabel').value;
+        var newOption = document.getElementById('newOption').value.trim();
+        if (newOption !== "") {
+            var selectDropdown = document.getElementById(targetLabel);
+            var option = document.createElement('option');
+            option.value = newOption;
+            option.textContent = newOption;
+            selectDropdown.appendChild(option);
+            document.getElementById('newOption').value = "";
+            alert("New option added successfully!");
+        } else {
+            alert("Please enter a valid option!");
+        }
+    }
+</script>
+
+</body>
+</html>
