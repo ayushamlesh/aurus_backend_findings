@@ -80,19 +80,19 @@
     <form id="ticketForm">
         <div class="form-row">
             <label for="Store">Store:</label>
-            <input type="text" id="pos" name="Store">
+            <input type="text" id="pos" name="Store" required>
         </div>
         <div class="form-row">
             <label for="Terminal">Terminal:</label>
-            <input type="text" id="tm" name="Terminal">
+            <input type="text" id="tm" name="Terminal" required>
         </div>
         <div class="form-row">
             <label for="macId">MAC ID:</label>
-            <input type="text" id="macId" name="MAC">
+            <input type="text" id="macId" name="MAC" required>
         </div>
         <div class="form-row">
             <label for="macStatus">Mac status/IP in info block:</label>
-            <input type="text" id="macStatus" name="Mac status/IP in info block">
+            <input type="text" id="macStatus" name="Mac status/IP in info block" required>
         </div>
         <div class="form-row">
             <label for="pingStatus">Able to ping:</label>
@@ -123,7 +123,7 @@
                 <option value="Other Error">Other Error</option>
             </select>
 			 <div class="form-row" id="otherIssueTextbox" style="display: none;">
-            <input type="text" id="otherIssueDetails" name="otherIssueDetails" placeholder="Please specify">
+            <input type="text" id="otherIssueDetails" name="otherIssueDetails" placeholder="Please specify" required>
 			</div>
         </div>
   
@@ -154,11 +154,11 @@
         </div>
 	    <div class="form-row">
             <label for="Recent key Exchange">Recent key Exchange:</label>
-            <input type="text" id="key" name="Recent key Exchange">
+            <input type="text" id="key" name="Recent key Exchange" required>
         </div>
         <div class="form-row">
             <label for="Recent Transaction">Recent Transaction:</label>
-            <input type="text" id="finance" name="Recent Transaction">
+            <input type="text" id="finance" name="Recent Transaction" required>
         </div>
         <input type="button" value="Copy Data" onclick="copyData()">
     </form>
